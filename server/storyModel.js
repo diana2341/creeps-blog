@@ -12,6 +12,6 @@ const storySchema = new mongoose.Schema({
     // comments: [String]
 })
 
-const Story = mongoose.model("Story", storySchema);
+const Story = mongoose.model("Story", storySchema, "Story");
 
 module.exports = Story

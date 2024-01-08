@@ -4,3 +4,19 @@ body{
     background-position: center center;
     background-size: cover;
 }
+.v-application a {
+    color: inherit!important;
+    text-decoration: none!important;
+}
+.tags {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .tag {
+    border: solid white 1px;
+    border-radius: 50px;
+    padding: 8px;
+    font-size: 14px;
+  }

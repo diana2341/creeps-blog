@@ -2,13 +2,14 @@ const { gql } = require('apollo-server')
 
 const typeDefs = gql`
     type Story {
-        id: ID!
+        _id: ID!
         title: String!
         date: String!
         story: String!
         author: String!
         tags: [String]!
         img: String!
+        rating: Float!
         views: Int!
         # comments: [String]!
     }
@@ -32,6 +33,7 @@ const typeDefs = gql`
         tags: [String]!
         img: String!
         views: Int!
+        rating: Float!
         # comments: [String]!
     }
 
