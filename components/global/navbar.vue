@@ -1,25 +1,33 @@
 <template>
   <div class="nav">
     <div class="Logo">
-      <img src="logo.png" />
+      <NuxtLink to="/">
+        <img src="logo.png" />
+      </NuxtLink>
       <div class="nav-list">
-      <ul>
-        <li>
-          Random Story
-          <i class="fa-solid fa-shuffle"></i>
-        </li>
-        <li>
-          Top Stories
-          <i class="fa-solid fa-arrow-trend-up"></i>
-        </li>
-        <li>
-          Recent Stories
-          <i class="fa-solid fa-clock-rotate-left"></i>
-        </li>
-        <li>
-        </li>
-      </ul>
-    </div>
+        <ul>
+          <li>
+            <NuxtLink to="/createStory">
+              Submit a Story
+              <i class="fa-regular fa-file-lines"></i>
+            </NuxtLink>
+          </li>
+          <li>
+            Random Story
+            <i class="fa-solid fa-shuffle"></i>
+          </li>
+          <li>
+            Top Stories
+            <i class="fa-solid fa-arrow-trend-up"></i>
+          </li>
+          <li>
+            Recent Stories
+            <i class="fa-solid fa-clock-rotate-left"></i>
+          </li>
+
+          <li></li>
+        </ul>
+      </div>
     </div>
 
     <div>
@@ -32,36 +40,33 @@
   </div>
 </template>
 <script>
-  export default {
-    data() {
-      return {
-        email: '',
-        password: '',
-        logo: null
-
-      };
-    },
-    methods: {
-      async login() {
-        try {
-          await this.$auth.loginWith('local', {
-            data: { email: this.email, password: this.password }
-          });
-          // Redirect or perform actions upon successful login
-        } catch (error) {
-          console.error(error);
-        }
+export default {
+  data() {
+    return {
+      email: "",
+      password: "",
+      logo: null,
+    };
+  },
+  methods: {
+    async login() {
+      try {
+        await this.$auth.loginWith("local", {
+          data: { email: this.email, password: this.password },
+        });
+        // Redirect or perform actions upon successful login
+      } catch (error) {
+        console.error(error);
       }
     },
-    mounted() {
-
+  },
+  mounted() {
     // if (this.$auth.loggedIn) {
     //   // Do something when the user is logged in
     //   console.log("heree")
     // }
-  }
-
-  };
+  },
+};
 </script>
 <style>
 li {
@@ -76,24 +81,22 @@ li {
   min-height: 100px;
   padding-left: 10px;
   padding-right: 10px;
-
 }
-.nav .v-btn{
+.nav .v-btn:not(.regular) {
   border-radius: 15px;
-    background: transparent!important;
-    border: solid rgb(185, 2, 2) 1px;
-    color: white;
- 
+  background: transparent !important;
+  border: solid rgb(185, 2, 2) 1px;
+  color: white;
 }
-.v-btn__content{
+.v-btn__content {
   display: flex;
-    align-items: center;
-    gap:4px
+  align-items: center;
+  gap: 4px;
 }
-.v-btn__content i{
+.v-btn__content i {
   font-size: 13px;
 }
-i{
+i {
   font-size: 16px;
 }
 .nav-list ul {
@@ -104,11 +107,17 @@ i{
   gap: 50px;
 }
 
-.Logo img{
-  width:120px
+.Logo img {
+  width: 120px;
 }
-.Logo{
+.Logo {
   display: flex;
-    align-items: center;
+  align-items: center;
+}
+.regular {
+  box-shadow: none !important;
+}
+.regular:hover {
+  background-color: transparent !important;
 }
 </style>

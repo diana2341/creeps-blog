@@ -51,39 +51,28 @@
             >
             <span
               ><i class="fa-solid fa-calendar-days"></i>
-              {{ story.date }}
+              {{dateFormatter( story.date ) }}
             </span>
           </div>
+          <i class="fa-solid fa-trash-can" @click="deleteCurrStory(story)"></i>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup>
-import allStories from "../pages/placeholder/stories.json";
 import { onMounted, ref } from "vue";
 import { useStoriesStore } from "~/store/stories";
 import { storeToRefs } from "pinia";
+import { timeToRead, dateFormatter } from '../utils/helpers'
 
 const storyStore = useStoriesStore();
-const { fetchStories } = storyStore;
+const { fetchStories, deleteStory } = storyStore;
 const { stories } = storeToRefs(storyStore);
 onMounted(async () => {
   await fetchStories();
-  console.log(stories.value);
 });
 
-const timeToRead = (text) => {
-  const wordsPerMinute = 200; // Average case.
-  let result;
-
-  let textLength = text.split(" ").length; // Split by words
-  if (textLength > 0) {
-    let value = Math.ceil(textLength / wordsPerMinute);
-    result = `${value} min read`;
-  }
-  return result;
-};
 const renderStars = (rating) => {
   let stars = {};
 
@@ -97,6 +86,10 @@ const renderStars = (rating) => {
   }
   return stars;
 };
+const deleteCurrStory  = async(story) =>{
+  await deleteStory(story._id)
+
+}
 </script>
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Koulen");
@@ -108,6 +101,7 @@ const renderStars = (rating) => {
   padding-bottom: 10px;
   max-width: 70%;
 }
+
 
 .story-inner-card {
   display: flex;
@@ -146,6 +140,7 @@ const renderStars = (rating) => {
   flex-direction: column;
   justify-content: space-between;
   gap: 15px;
+  position: relative;
 }
 .author {
   text-transform: capitalize;
@@ -168,5 +163,12 @@ const renderStars = (rating) => {
 }
 .stars i {
   font-size: 12px;
+}
+.fa-trash-can{
+  position: absolute;
+  top:10px;
+  right:10px;
+  color:white;
+  cursor: pointer;
 }
 </style>
