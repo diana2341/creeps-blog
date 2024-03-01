@@ -12,11 +12,11 @@
               <i class="fa-regular fa-file-lines"></i>
             </NuxtLink>
           </li>
-          <li>
+          <li @click="randomStory">
             Random Story
             <i class="fa-solid fa-shuffle"></i>
           </li>
-          <li>
+          <li @click="topStory">
             Top Stories
             <i class="fa-solid fa-arrow-trend-up"></i>
           </li>
@@ -39,38 +39,58 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  data() {
-    return {
-      email: "",
-      password: "",
-      logo: null,
-    };
-  },
-  methods: {
-    async login() {
-      try {
-        await this.$auth.loginWith("local", {
-          data: { email: this.email, password: this.password },
-        });
-        // Redirect or perform actions upon successful login
-      } catch (error) {
-        console.error(error);
-      }
-    },
-  },
-  mounted() {
-    // if (this.$auth.loggedIn) {
-    //   // Do something when the user is logged in
-    //   console.log("heree")
-    // }
-  },
+<script setup>
+import { useStoriesStore } from "~/store/stories";
+import { storeToRefs } from "pinia";
+import { ref, onMounted } from "vue";
+import { useRouter } from '@nuxtjs/composition-api';
+
+const email = ref("");
+const password = ref("");
+const logo = ref(null);
+const storiesStore = useStoriesStore()
+const { fetchStories } = storiesStore;
+const { stories } = storeToRefs(storiesStore)
+const $router = useRouter();
+
+const login = async () => {
+  try {
+    await this.$auth.loginWith("local", {
+      data: { email: this.email, password: this.password },
+    });
+    // Redirect or perform actions upon successful login
+  } catch (error) {
+    console.error(error);
+  }
 };
+const randomStory = () => {
+  if(stories.value.length){
+    const story = stories.value[Math.floor(Math.random()*stories.value.length)];
+    $router.push(`/${story._id}`)
+
+  }
+};
+
+
+const topStory = () =>{
+  if(stories.value.length){
+    $router.push('/topStories')
+  }
+
+}
+
+onMounted (async() => {
+// if (this.$auth.loggedIn) {
+//   // Do something when the user is logged in
+//   // console.log("heree")
+// }
+ await fetchStories()
+})
 </script>
 <style>
-li {
+.nav-list li {
   list-style-type: none;
+  cursor: pointer;
 }
 .nav {
   display: flex;

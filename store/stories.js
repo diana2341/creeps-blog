@@ -6,6 +6,7 @@ import { ref } from "vue";
 export const useStoriesStore = defineStore("storiesStore", () => {
   const stories = ref([]);
   const currStory = ref({});
+  const topStories = ref([])
 
   const fetchStories = async () => {
     try {
@@ -140,7 +141,6 @@ export const useStoriesStore = defineStore("storiesStore", () => {
     }
   }
   const deleteStory = async(id) =>{
-    console.log(id,'??')
     const response = axios.post(`http://localhost:4000/graphql`,
       {
         query: `
@@ -157,5 +157,13 @@ export const useStoriesStore = defineStore("storiesStore", () => {
 
 
   }
-  return { stories, fetchStories, currStory, fetchCurrStory, updateStory, createStory, deleteStory };
+  const getTopStories = async() => {
+   await fetchStories()
+    if(stories.value.length){
+      const top = stories.value.sort((a,b)=> b.views - a.views).slice(0,3)
+      topStories.value = top
+    }
+
+  }
+  return { stories, fetchStories, currStory, fetchCurrStory, updateStory, createStory, deleteStory, getTopStories, topStories };
 });

@@ -70,7 +70,7 @@ const submit = async () => {
  $router.push(`/${newStory._id}`)
 };
 </script>
-<style >
+<style>
 .sub-form input:not(.v-select__slot input),
 .sub-form textarea,
 .sub-form .v-select__slot,
